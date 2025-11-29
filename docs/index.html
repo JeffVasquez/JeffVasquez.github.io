@@ -1,58 +1,781 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeffery Vasquez Loayza - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    
-    <title>Mi plantilla</title>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #0a0e27;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: transparent;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            background: transparent;
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .tagline {
+            margin-top: 20px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        main {
+            padding: 40px;
+            background: transparent;
+        }
+
+        section {
+            margin-bottom: 40px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h2 {
+            color: #a5b4fc;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #a5b4fc;
+            display: inline-block;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-category h3 {
+            color: #c7d2fe;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #e0e7ff;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .skill-tag:hover {
+            transform: scale(1.1);
+            background: rgba(102, 126, 234, 0.4);
+            border-color: rgba(167, 139, 250, 0.6);
+            color: white;
+        }
+
+        .experience-item, .education-item, .cert-item {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #a5b4fc;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .experience-item:hover, .education-item:hover, .cert-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .experience-item h3, .education-item h3, .cert-item h3 {
+            color: #c7d2fe;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            color: #a5b4fc;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(165, 180, 252, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .description {
+            color: #e0e7ff;
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .cert-id {
+            font-size: 0.85em;
+            color: #cbd5e1;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        footer {
+            background: rgba(20, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .contact-info {
+            margin-top: 15px;
+        }
+
+        .contact-info a {
+            color: #a5b4fc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #c7d2fe;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .skills-grid, .cert-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <canvas id="space-canvas"></canvas>
+    
     <div class="container">
-    <div class="col-xs-12">
-            <div class="text-center" style="padding-top: 30px; padding-bottom: 30px;">
-                <img class="backdrop linktree">
-                <h2 style="color: #ffffff; padding-top: 20px;">Mi curso de Git y Github</h2>
+        <header>
+            <div class="header-content">
+                <div class="avatar">JL</div>
+                <h1>Jeffery Vasquez Loayza</h1>
+                <p class="subtitle">Cybersecurity & Full Stack Developer | Web3 Specialist | AI Solutions Architect</p>
+                <p class="tagline">Technical professional with 13+ years in IT, hardware, software, telecom, and cybersecurity</p>
+                <p class="tagline">Web3 Full Stack Development | Solidity, Fuel, and Wallet Integration | Blockchain, Smart Contracts & Decentralized Apps</p>
+                <p class="tagline">Custom Microservices Architecture | AI Agents Development | Intelligent Automation</p>
             </div>
-    </div>
-    </div>
+        </header>
 
+        <main>
+            <section id="skills">
+                <h2>Skills Overview</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Development Roles</h3>
+                        <div class="skill-tag">Fullstack Developer</div>
+                        <div class="skill-tag">Backend Developer</div>
+                        <div class="skill-tag">Frontend Developer</div>
+                        <div class="skill-tag">Web3 Developer</div>
+                        <div class="skill-tag">AI Solutions Architect</div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Technical Skills</h3>
+                        <div class="skill-tag">JavaScript</div>
+                        <div class="skill-tag">Python</div>
+                        <div class="skill-tag">CCNA</div>
+                        <div class="skill-tag">Cybersecurity</div>
+                        <div class="skill-tag">English</div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Blockchain & Web3</h3>
+                        <div class="skill-tag">Solidity</div>
+                        <div class="skill-tag">Fuel Network</div>
+                        <div class="skill-tag">Smart Contracts</div>
+                        <div class="skill-tag">DApps</div>
+                        <div class="skill-tag">Wallet Integration</div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>AI & Automation</h3>
+                        <div class="skill-tag">AI Agents</div>
+                        <div class="skill-tag">Machine Learning</div>
+                        <div class="skill-tag">LLM Integration</div>
+                        <div class="skill-tag">Intelligent Automation</div>
+                        <div class="skill-tag">NLP</div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Architecture & Cloud</h3>
+                        <div class="skill-tag">Microservices</div>
+                        <div class="skill-tag">API Design</div>
+                        <div class="skill-tag">AWS Cloud</div>
+                        <div class="skill-tag">Docker</div>
+                        <div class="skill-tag">Kubernetes</div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="container">
-    <div class="col-xs-12">
-            <div class="text-center">
-                <div style="padding-bottom: 30px;">
-                    <button onclick="location.href='https://platzi.com/cursos/docker-fundamentos/'" type="button" class="btn btn-outline-light shake" style="width: 80%; padding-top:10px; padding-bottom:10px; font-weight: 800;">Mi curso de Docker</button>
+            <section id="experience">
+                <h2>Professional Experience</h2>
+                
+                <div class="experience-item">
+                    <h3>Sigue Tu Norte</h3>
+                    <span class="date">2021 - 2023</span>
+                    <p class="description">IT and Cybersecurity Manager. Built website, virtual campus, and email system.</p>
                 </div>
-                <div style="padding-bottom: 30px;">
-                    <button onclick="location.href='http://aminespinoza.com'" type="button" class="btn btn-outline-light" style="width: 80%; padding-top:10px; padding-bottom:10px; font-weight: 600;">Mi sitio web</button>
+
+                <div class="experience-item">
+                    <h3>Vyn Alimentos Website</h3>
+                    <span class="date">2020 - 2021</span>
+                    <p class="description">Frontend and Backend Ecommerce design using WordPress, AWS EC2, and Route 53.</p>
                 </div>
-                <div style="padding-bottom: 30px;">
-                    <button onclick="location.href='https://www.linkedin.com/in/aminespinoza/'" type="button" class="btn btn-outline-light" style="width: 80%; padding-top:10px; padding-bottom:10px; font-weight: 600;">Conecta en mi perfil de LinkedIn</button>
+
+                <div class="experience-item">
+                    <h3>Soy Esencial</h3>
+                    <span class="date">2019 - 2020</span>
+                    <p class="description">Frontend Ecommerce design and AWS S3, bucket, and API REST configuration.</p>
                 </div>
-                <div style="padding-bottom: 30px;">
-                    <button onclick="location.href='https://www.instagram.com/aminespinoza10/'" type="button" class="btn btn-outline-light" style="width: 80%; padding-top:10px; padding-bottom:10px; font-weight: 600;">Visitame en Instagram</button>
+
+                <div class="experience-item">
+                    <h3>Alliance Airfreight & Ocean Peru</h3>
+                    <span class="date">2018 - 2019</span>
+                    <p class="description">Application and website design in JavaScript. Created CSV import/export purchase book system.</p>
                 </div>
-                <div style="padding-bottom: 30px;">
-                    <button onclick="location.href='https://www.youtube.com/aminespinoza'" type="button" class="btn btn-outline-light" style="width: 80%; padding-top:10px; padding-bottom:10px; font-weight: 600;">Mira mi canal de Youtube</button>
+
+                <div class="experience-item">
+                    <h3>Independent Services</h3>
+                    <span class="date">2011 - 2017</span>
+                    <p class="description">Provided comprehensive hardware and software repair services independently.</p>
                 </div>
+            </section>
+
+            <section id="education">
+                <h2>Education</h2>
+                
+                <div class="education-item">
+                    <h3>Universidad San Ignacio de Loyola</h3>
+                    <span class="date">2016 - 2019</span>
+                    <p class="description">4th year International Business</p>
+                </div>
+
+                <div class="education-item">
+                    <h3>Universidad Abierta Interamericana</h3>
+                    <span class="date">2010 - 2013</span>
+                    <p class="description">Systems Analyst</p>
+                </div>
+            </section>
+
+            <section id="certifications">
+                <h2>Certifications</h2>
+                <div class="cert-grid">
+                    <div class="cert-item">
+                        <h3>Bloomberg Market Concept</h3>
+                        <span class="date">2020</span>
+                        <p class="cert-id">Credential ID: 158740911475</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>Cisco CCNA</h3>
+                        <span class="date">2021</span>
+                        <p class="cert-id">Credential ID: Ccna1</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>CCNAv7 Bridging</h3>
+                        <span class="date">2022</span>
+                        <p class="cert-id">Credential ID: Ccna2</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>Intro Cybersecurity</h3>
+                        <span class="date">2022</span>
+                        <p class="description">Cisco Networking Academy</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>Linux Essentials</h3>
+                        <span class="date">2022</span>
+                        <p class="description">Professional Development - Universidad Señor de Sipan</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>PCAP: Programming in Python</h3>
+                        <span class="date">2022</span>
+                        <p class="description">Cisco Networking Academy & Python Institute</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>Frontend Developer</h3>
+                        <span class="date">2022</span>
+                        <p class="description">Platzi Academy</p>
+                        <p class="cert-id">Credential ID: 5310c572-3940-499c-9fa3-7fa0015ba8da</p>
+                    </div>
+
+                    <div class="cert-item">
+                        <h3>Technology for Managers and Directors</h3>
+                        <span class="date">2022</span>
+                        <p class="description">Platzi Academy</p>
+                        <p class="cert-id">Credential ID: 7d855f2e-683d-4ac2-a76f-7599907c508</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Jeffery Vasquez Loayza. All rights reserved.</p>
+            <div class="contact-info">
+                <p>Open to new opportunities in Cybersecurity & Development</p>
             </div>
+        </footer>
     </div>
-    </div>
 
-        <div class="text-center">
-            <a href="https://codepen.io/nightcl4w/pen/dEjreJ" style="color: #34312f;" target="_blank">Creado por OrderMerch</a>
-        </div>
+    <script>
+        // ============================================
+        // SECURITY: DATA ENCRYPTION UTILITY
+        // ============================================
+        const SecurityManager = {
+            // Simple encryption for demonstration (in production use proper encryption libraries)
+            encrypt: function(text) {
+                const salt = Math.random().toString(36).substring(2, 15);
+                let encrypted = '';
+                for (let i = 0; i < text.length; i++) {
+                    encrypted += String.fromCharCode(text.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
+                }
+                return btoa(encrypted + '::' + salt);
+            },
+            
+            decrypt: function(encrypted) {
+                const decoded = atob(encrypted);
+                const parts = decoded.split('::');
+                const text = parts[0];
+                const salt = parts[1];
+                let decrypted = '';
+                for (let i = 0; i < text.length; i++) {
+                    decrypted += String.fromCharCode(text.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
+                }
+                return decrypted;
+            },
+            
+            // Sanitize sensitive data from console/errors
+            sanitizeError: function(error) {
+                const sensitivePatterns = /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b|\b\d{3}-\d{2}-\d{4}\b|\b\d{16}\b/g;
+                return error.toString().replace(sensitivePatterns, '[REDACTED]');
+            }
+        };
 
+        // ============================================
+        // SPACE BACKGROUND WITH STARS AND CONSTELLATIONS
+        // ============================================
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <!-- This pre-lander was created by Brandon Nilsson -->
-    <!-- You're welcome to edit, reproduce and change this template as long as original contributation stays present on the website at all times.  -->
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Mouse interaction variables
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+        let mouseInfluence = 0.05;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Star class
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random();
+                this.fadeSpeed = (Math.random() * 0.02) + 0.005;
+                this.fadeDirection = Math.random() > 0.5 ? 1 : -1;
+            }
+
+            update() {
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDistance = 200;
+                
+                if (distance < maxDistance) {
+                    const force = (maxDistance - distance) / maxDistance;
+                    this.x -= dx * force * mouseInfluence * 0.3;
+                    this.y -= dy * force * mouseInfluence * 0.3;
+                }
+
+                // Natural movement
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+                this.opacity += this.fadeSpeed * this.fadeDirection;
+                if (this.opacity <= 0 || this.opacity >= 1) {
+                    this.fadeDirection *= -1;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Constellation Node class
+        class Node {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = 3;
+            }
+
+            update() {
+                // Mouse interaction - stronger effect on nodes
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDistance = 250;
+                
+                if (distance < maxDistance) {
+                    const force = (maxDistance - distance) / maxDistance;
+                    this.x -= dx * force * mouseInfluence;
+                    this.y -= dy * force * mouseInfluence;
+                }
+
+                // Natural movement
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(102, 126, 234, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Create stars and nodes
+        const stars = [];
+        const nodes = [];
+        const numStars = 200;
+        const numNodes = 15;
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+        }
+
+        for (let i = 0; i < numNodes; i++) {
+            nodes.push(new Node());
+        }
+
+        // Draw connections between nodes
+        function drawConnections() {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 200) {
+                        const opacity = (1 - distance / 200) * 0.5;
+                        ctx.strokeStyle = `rgba(102, 126, 234, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 14, 39, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            drawConnections();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // ============================================
+        // DATA PROTECTION: Prevent data exposure
+        // ============================================
+        
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        // Prevent opening dev tools with common shortcuts
+        document.addEventListener('keydown', (e) => {
+            // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+                (e.ctrlKey && e.keyCode === 85)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Override console methods in production
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            const noop = () => {};
+            ['log', 'debug', 'info', 'warn', 'error'].forEach(method => {
+                console[method] = noop;
+            });
+        }
+
+        // Encrypt sensitive data before any potential storage
+        const sensitiveData = {
+            name: SecurityManager.encrypt('Jeffery Vasquez Loayza'),
+            email: SecurityManager.encrypt('contact@jefferyvasquez.dev'), // Example
+            phone: SecurityManager.encrypt('+51-XXX-XXX-XXX') // Example
+        };
+
+        // Secure error handling
+        window.addEventListener('error', (e) => {
+            const sanitizedError = SecurityManager.sanitizeError(e.message);
+            console.error('Sanitized Error:', sanitizedError);
+            e.preventDefault();
+        });
+
+        // ============================================
+        // ORIGINAL PORTFOLIO SCRIPTS
+        // ============================================
+        
+        // Smooth scroll animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive skill tags
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.style.animation = 'pulse 0.5s';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            });
+        });
+
+        // Dynamic year in footer
+        const year = new Date().getFullYear();
+        document.querySelector('footer p').textContent = `© ${year} Jeffery Vasquez Loayza. All rights reserved.`;
+    </script>
 </body>
-
 </html>
